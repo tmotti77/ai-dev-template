@@ -68,17 +68,70 @@ if ($testResult -match "tools") {
     Write-Host "⚠ MCP server test inconclusive" -ForegroundColor Yellow
 }
 
+# Check CLI tools installation
+Write-Host ""
+Write-Host "Checking AI CLI tools..." -ForegroundColor Yellow
+
+$cliTools = @{
+    "Claude Code" = "claudecode --version"
+    "Copilot CLI" = "github-copilot-cli --version"
+    "Python (for OpenAI)" = "python --version"
+}
+
+$installedCount = 0
+$totalTools = $cliTools.Count
+
+foreach ($tool in $cliTools.GetEnumerator()) {
+    try {
+        $null = Invoke-Expression $tool.Value 2>&1
+        Write-Host "✓ $($tool.Key) installed" -ForegroundColor Green
+        $installedCount++
+    } catch {
+        Write-Host "✗ $($tool.Key) not installed" -ForegroundColor Yellow
+    }
+}
+
+if ($installedCount -lt $totalTools) {
+    Write-Host ""
+    Write-Host "⚠ Some CLI tools missing. See README.md 'Prerequisites' section for installation." -ForegroundColor Yellow
+}
+
 # Display next steps
 Write-Host ""
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host "Setup Complete!" -ForegroundColor Green
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host ""
-Write-Host "Next steps:" -ForegroundColor Yellow
-Write-Host "1. Open this folder in Cursor"
-Write-Host "2. Go to Agents panel (see screenshot in README)"
-Write-Host "3. Create agents using the .cursor/agents/*.md files"
-Write-Host "4. Start using your AI dev team!"
+Write-Host "✅ MCP Server: Ready" -ForegroundColor Green
+Write-Host "✅ Agent Files: 5/5 found" -ForegroundColor Green
+Write-Host "✅ CLI Tools: $installedCount/$totalTools installed" -ForegroundColor Green
 Write-Host ""
-Write-Host "Read README.md and EXAMPLES.md for usage examples"
+Write-Host "Next steps:" -ForegroundColor Yellow
+Write-Host "1. Open Cursor:    cursor ." -ForegroundColor White
+Write-Host "2. Launch terminals: .\launch-terminals.ps1" -ForegroundColor White
+Write-Host "3. Configure agents in Cursor (first time only)" -ForegroundColor White
+Write-Host "   → See NEW-PROJECT-SETUP.md for detailed guide" -ForegroundColor Cyan
+Write-Host ""
+Write-Host "Quick links:" -ForegroundColor Yellow
+Write-Host "  📖 Full guide:     NEW-PROJECT-SETUP.md" -ForegroundColor White
+Write-Host "  🚀 Quick start:    QUICKSTART.md" -ForegroundColor White
+Write-Host "  💡 Examples:       EXAMPLES.md" -ForegroundColor White
+Write-Host ""
+
+# Offer to open Cursor
+$openCursor = Read-Host "Open Cursor now? (y/n)"
+if ($openCursor -eq 'y' -or $openCursor -eq 'Y') {
+    Write-Host "Opening Cursor..." -ForegroundColor Green
+    cursor .
+}
+
+# Offer to launch terminals
+$openTerminals = Read-Host "Launch AI terminals? (y/n)"
+if ($openTerminals -eq 'y' -or $openTerminals -eq 'Y') {
+    Write-Host "Launching terminals..." -ForegroundColor Green
+    .\launch-terminals.ps1
+}
+
+Write-Host ""
+Write-Host "Happy coding! 🚀" -ForegroundColor Cyan
 Write-Host ""

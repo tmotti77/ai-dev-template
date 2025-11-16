@@ -2,6 +2,14 @@
 
 A ready-to-use template that orchestrates multiple AI models as a coordinated development team in Cursor.
 
+---
+
+> **🚀 NEW TO THIS TEMPLATE?**
+> **Read [START-HERE.md](START-HERE.md) for quick setup!**
+> **Starting a new project? See [NEW-PROJECT-SETUP.md](NEW-PROJECT-SETUP.md)**
+
+---
+
 ## Overview
 
 This template sets up 5 specialized AI agents that work together as a development team:
