@@ -1,0 +1,80 @@
+{
+  "mcpServers": {
+    "ai-dev-team": {
+      "command": "node",
+      "args": ["mcp-server/server.js"],
+      "env": {},
+      "description": "AI Development Team Orchestrator"
+    }
+  },
+  "agents": {
+    "claude": {
+      "role": "lead-dev",
+      "model": "claude",
+      "specialties": ["architecture", "implementation", "coordination"],
+      "configPath": ".cursor/agents/claude.md"
+    },
+    "grok": {
+      "role": "reviewer",
+      "model": "grok",
+      "specialties": ["code-review", "quality", "security"],
+      "configPath": ".cursor/agents/grok.md"
+    },
+    "gemini": {
+      "role": "refactor",
+      "model": "gemini",
+      "specialties": ["refactoring", "optimization", "cleanup"],
+      "configPath": ".cursor/agents/gemini.md"
+    },
+    "codex": {
+      "role": "test-engineer",
+      "model": "codex",
+      "specialties": ["testing", "coverage", "quality-assurance"],
+      "configPath": ".cursor/agents/codex.md"
+    },
+    "copilot": {
+      "role": "cli-runner",
+      "model": "copilot",
+      "specialties": ["execution", "builds", "tooling"],
+      "configPath": ".cursor/agents/copilot.md"
+    }
+  },
+  "workflows": {
+    "feature-development": {
+      "description": "Full feature development workflow",
+      "steps": [
+        {"agent": "claude", "task": "design and implement feature"},
+        {"agent": "codex", "task": "write tests for feature"},
+        {"agent": "copilot", "task": "run tests and build"},
+        {"agent": "grok", "task": "review code and tests"},
+        {"agent": "gemini", "task": "refactor if needed"}
+      ]
+    },
+    "bug-fix": {
+      "description": "Bug fix workflow",
+      "steps": [
+        {"agent": "grok", "task": "analyze bug and impact"},
+        {"agent": "claude", "task": "implement fix"},
+        {"agent": "codex", "task": "add regression test"},
+        {"agent": "copilot", "task": "verify fix works"}
+      ]
+    },
+    "refactor": {
+      "description": "Code refactoring workflow",
+      "steps": [
+        {"agent": "grok", "task": "identify code smells"},
+        {"agent": "gemini", "task": "refactor code"},
+        {"agent": "copilot", "task": "ensure tests still pass"},
+        {"agent": "grok", "task": "verify improvements"}
+      ]
+    },
+    "code-review": {
+      "description": "Comprehensive code review",
+      "steps": [
+        {"agent": "grok", "task": "review for bugs and quality"},
+        {"agent": "codex", "task": "verify test coverage"},
+        {"agent": "gemini", "task": "suggest improvements"}
+      ]
+    }
+  }
+}

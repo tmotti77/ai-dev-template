@@ -1,0 +1,22 @@
+{
+  "name": "ai-dev-team-mcp-server",
+  "version": "1.0.0",
+  "description": "MCP Server for orchestrating AI development team agents",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "mcp",
+    "ai",
+    "agents",
+    "development",
+    "cursor"
+  ],
+  "author": "",
+  "license": "MIT",
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
