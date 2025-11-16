@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "ai-dev-team": {
+      "command": "node",
+      "args": ["mcp-server/server.js"],
+      "env": {},
+      "description": "AI Development Team - Auto-routing agent orchestrator"
+    }
+  }
+}

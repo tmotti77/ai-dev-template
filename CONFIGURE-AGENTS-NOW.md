@@ -204,7 +204,7 @@ Complexity: Before [score] → After [score]
 
 **Name:** `Codex - Test Engineer`
 
-**Model:** Select `GPT-4` or `o1` (best for testing)
+**Model:** Select `GPT-5.1` or `5` (best for testing)
 
 **Prompt:** Copy and paste:
 

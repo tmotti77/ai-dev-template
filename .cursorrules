@@ -1,0 +1,37 @@
+# AI Development Team - Cursor Rules
+
+This project uses specialized AI agents for different tasks. Reference the appropriate agent when working:
+
+## Available Agents
+
+### Claude - Lead Developer
+**Use for:** Architecture, implementation, core features
+**Prompt:** See `.cursor/agents/claude.md`
+When implementing features, think about scalability, maintainability, and best practices.
+
+### Grok - Code Reviewer
+**Use for:** Code review, quality checks, security
+**Prompt:** See `.cursor/agents/grok.md`
+When reviewing code, check for bugs, security issues, and adherence to standards.
+
+### Gemini - Refactoring Specialist
+**Use for:** Code optimization, cleanup, refactoring
+**Prompt:** See `.cursor/agents/gemini.md`
+When refactoring, maintain existing behavior while improving code structure.
+
+### Codex - Test Engineer
+**Use for:** Writing tests, test coverage
+**Prompt:** See `.cursor/agents/codex.md`
+When writing tests, follow AAA pattern and test edge cases.
+
+### Copilot - CLI Runner
+**Use for:** Running commands, builds, deployments
+**Prompt:** See `.cursor/agents/copilot.md`
+When running commands, show full output and suggest fixes for errors.
+
+## How to Use
+
+Start your message with the agent role:
+- "As Lead Dev: implement user authentication"
+- "As Reviewer: check this code for security issues"
+- "As Test Engineer: write tests for this function"

@@ -44,6 +44,20 @@ class AIDevTeamServer {
     return {
       tools: [
         {
+          name: 'auto_route',
+          description: 'ALWAYS USE THIS FIRST - Automatically detect which agent should handle the user query and load their full context. This makes the AI respond as that specialized agent.',
+          inputSchema: {
+            type: 'object',
+            properties: {
+              user_query: {
+                type: 'string',
+                description: 'The user\'s question or request'
+              }
+            },
+            required: ['user_query']
+          }
+        },
+        {
           name: 'assign_task',
           description: 'Assign a task to a specific agent',
           inputSchema: {
@@ -195,6 +209,8 @@ class AIDevTeamServer {
     const { name, arguments: args } = params;
 
     switch (name) {
+      case 'auto_route':
+        return this.autoRoute(args);
       case 'assign_task':
         return this.assignTask(args);
       case 'run_workflow':
@@ -295,6 +311,68 @@ class AIDevTeamServer {
       content: [{
         type: 'text',
         text: `Suggested agents for: "${task_description}"\n\n${suggestionText}`
+      }]
+    };
+  }
+
+  autoRoute(args) {
+    const { user_query } = args;
+    const queryLower = user_query.toLowerCase();
+
+    // Detect which agent should handle this query
+    let selectedAgent = 'claude'; // default
+    let reason = 'Default: Lead developer for general tasks';
+
+    // Priority order based on keywords
+    if (queryLower.match(/test|coverage|unit|integration|spec|jest|pytest|mocha/)) {
+      selectedAgent = 'codex';
+      reason = 'Test engineer - handles testing tasks';
+    } else if (queryLower.match(/review|check|audit|security|vulnerability|bug|issue|problem/)) {
+      selectedAgent = 'grok';
+      reason = 'Code reviewer - handles quality and security checks';
+    } else if (queryLower.match(/refactor|clean|optimize|improve|simplify|restructure|organize/)) {
+      selectedAgent = 'gemini';
+      reason = 'Refactoring specialist - handles code improvements';
+    } else if (queryLower.match(/run|execute|build|deploy|install|command|npm|pip|docker|terminal/)) {
+      selectedAgent = 'copilot';
+      reason = 'CLI runner - handles command execution';
+    } else if (queryLower.match(/implement|create|build|develop|feature|architecture|design|api|function|class/)) {
+      selectedAgent = 'claude';
+      reason = 'Lead developer - handles implementation and architecture';
+    }
+
+    // Load the agent's full instructions
+    const agentConfig = this.agents[selectedAgent];
+    if (!agentConfig) {
+      throw new Error(`Unknown agent: ${selectedAgent}`);
+    }
+
+    const configPath = path.join(this.projectRoot, agentConfig.configPath);
+    const agentInstructions = fs.readFileSync(configPath, 'utf8');
+
+    // Return the full agent context
+    return {
+      content: [{
+        type: 'text',
+        text: `🤖 Auto-routed to: ${selectedAgent.toUpperCase()} (${reason})
+
+========================================
+AGENT INSTRUCTIONS - ${selectedAgent.toUpperCase()}
+========================================
+
+${agentInstructions}
+
+========================================
+USER QUERY
+========================================
+
+${user_query}
+
+========================================
+INSTRUCTIONS
+========================================
+
+You are now acting as the ${agentConfig.role}. Follow the agent instructions above to respond to the user's query. Stay in character and use the working style, collaboration guidelines, and output format specified for this agent.`
       }]
     };
   }
