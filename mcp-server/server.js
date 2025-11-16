@@ -10,6 +10,8 @@ const path = require('path');
 
 class AIDevTeamServer {
   constructor() {
+    // Set project root as parent directory of mcp-server
+    this.projectRoot = path.join(__dirname, '..');
     this.config = this.loadConfig();
     this.agents = this.config.agents;
     this.workflows = this.config.workflows;
@@ -164,7 +166,7 @@ class AIDevTeamServer {
         throw new Error(`Unknown agent: ${agentName}`);
       }
 
-      const configPath = path.join(process.cwd(), agent.configPath);
+      const configPath = path.join(this.projectRoot, agent.configPath);
       const content = fs.readFileSync(configPath, 'utf8');
 
       return {

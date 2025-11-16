@@ -12,11 +12,88 @@ This template sets up 5 specialized AI agents that work together as a developmen
 - **Codex** - Test Engineer (testing, coverage, quality assurance)
 - **Copilot** - CLI Runner (builds, tests, tooling)
 
+## Prerequisites - Install AI CLI Tools
+
+Before using this template, install the CLI tools for each AI model. This allows you to work with them in separate terminals.
+
+### PowerShell Commands (Recommended for Windows)
+
+```powershell
+# 1. Claude Code CLI
+npm install -g @anthropics/claude-code
+
+# Login (follow prompts)
+claudecode auth login
+
+# Test it works
+claudecode --version
+
+# 2. Gemini CLI (Google AI)
+npm install -g @google/generative-ai-cli
+
+# Login with your Google API key
+$env:GOOGLE_API_KEY="your-api-key-here"
+
+# Or set permanently in PowerShell profile
+# Add to: $PROFILE
+# $env:GOOGLE_API_KEY="your-api-key"
+
+# 3. GitHub Copilot CLI
+npm install -g @githubnext/github-copilot-cli
+
+# Login
+github-copilot-cli auth
+
+# Test
+github-copilot-cli --version
+
+# 4. OpenAI CLI (for Codex)
+pip install openai
+
+# Set API key
+$env:OPENAI_API_KEY="your-openai-api-key"
+
+# Or add to PowerShell profile permanently
+```
+
+### Open All AI Terminals at Once
+
+Use the provided launcher script:
+
+```powershell
+# Run the terminal launcher
+.\launch-terminals.ps1
+```
+
+This opens 4 PowerShell windows, one for each AI CLI:
+- **Claude Code** - Lead Developer
+- **Gemini** - Refactoring/Analysis
+- **Copilot** - Code Assistance
+- **Codex** - Testing/Code Generation
+
+### Manual Terminal Setup
+
+If you prefer to open them manually:
+
+```powershell
+# Terminal 1: Claude Code
+Start-Process pwsh -ArgumentList "-NoExit", "-Command", "claudecode"
+
+# Terminal 2: Gemini
+Start-Process pwsh -ArgumentList "-NoExit", "-Command", "Write-Host 'Gemini CLI Ready' -ForegroundColor Cyan"
+
+# Terminal 3: Copilot
+Start-Process pwsh -ArgumentList "-NoExit", "-Command", "github-copilot-cli"
+
+# Terminal 4: Codex/OpenAI
+Start-Process pwsh -ArgumentList "-NoExit", "-Command", "Write-Host 'OpenAI CLI Ready' -ForegroundColor Green"
+```
+
 ## Quick Start
 
 ### 1. Clone or Use This Template
 
-```bash
+```powershell
 # Clone for a new project
 git clone https://github.com/tmotti77/ai-dev-template.git my-new-project
 cd my-new-project
@@ -27,9 +104,10 @@ cd my-new-project
 
 ### 2. Install MCP Server
 
-```bash
+```powershell
 cd mcp-server
 npm install
+cd ..
 ```
 
 ### 3. Configure Cursor
